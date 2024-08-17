@@ -9,8 +9,8 @@ This project is designed to benchmark the performance of different loop types in
 To run the benchmark tests, follow these steps:
 
 1. Clone the repository to your local machine.
-2. Install the Dart SDK and the `benchmark_harness` package.
-3. Run the `dart run` command in the terminal to execute the benchmark tests.
+2. Install the Dart SDK.
+3. Run the `pub get` & then `dart run` command in the terminal to execute the benchmark tests.
 
 **Benchmark Tests**
 

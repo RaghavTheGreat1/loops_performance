@@ -17,6 +17,7 @@ class LoopsPerformance {
         WhileLoopWithLengthCached(iterations: iterations);
     final whileLoopWithoutLengthCached =
         WhileLoopWithoutLengthCached(iterations: iterations);
+    final whileLoopWithIterator = WhileLoopWithIterator(iterations: iterations);
     final forIn = ForIn(iterations: iterations);
     final forEach = ForEach(iterations: iterations);
     final mapFunction = MapLoop(iterations: iterations);
@@ -25,6 +26,7 @@ class LoopsPerformance {
     forLoopWithLengthCached.report();
     whileLoopWithoutLengthCached.report();
     whileLoopWithLengthCached.report();
+    whileLoopWithIterator.report();
     forIn.report();
     forEach.report();
     mapFunction.report();
@@ -37,6 +39,8 @@ class LoopsPerformance {
         WhileLoopMapConversionWithoutCachedLength(iterations: iterations);
     final whileLoopMapConversionWithCachedLength =
         WhileLoopMapConversionWithCachedLength(iterations: iterations);
+    final whileLoopMapConversionWithIterator =
+        WhileLoopMapConversionWithIterator(iterations: iterations);
     final forInLoopMapConversion =
         ForInLoopMapConversion(iterations: iterations);
     final mapFunctionConversion = MapFunctionConversion(iterations: iterations);
@@ -49,6 +53,7 @@ class LoopsPerformance {
     forLoopMapConversionWithLengthCached.report();
     whileLoopMapConversionWithoutCachedLength.report();
     whileLoopMapConversionWithCachedLength.report();
+    whileLoopMapConversionWithIterator.report();
     forInLoopMapConversion.report();
     forEachLoopMapConversion.report();
     mapFunctionConversion.report();
@@ -163,6 +168,33 @@ class WhileLoopWithLengthCached extends BenchmarkBase {
     while (i < length) {
       calculate();
       i++;
+    }
+  }
+}
+
+class WhileLoopWithIterator extends BenchmarkBase {
+  WhileLoopWithIterator({
+    required this.iterations,
+  }) : super('While Loop with Iterator');
+
+  final int iterations;
+
+  late final List<int> list;
+
+  @override
+  void setup() {
+    list = List.generate(iterations, (index) => index);
+  }
+
+  @override
+  void run() {
+    whileLoop();
+  }
+
+  void whileLoop() {
+    final iterator = list.iterator;
+    while (iterator.moveNext()) {
+      calculate();
     }
   }
 }
@@ -387,6 +419,35 @@ class WhileLoopMapConversionWithCachedLength extends BenchmarkBase {
     while (i < length) {
       result.add(list[i].toString());
       i++;
+    }
+  }
+}
+
+class WhileLoopMapConversionWithIterator extends BenchmarkBase {
+  WhileLoopMapConversionWithIterator({
+    required this.iterations,
+  }) : super('While Loop Map Conversion With Iterator');
+
+  final int iterations;
+
+  late final List<int> list;
+
+  final List<String> result = [];
+
+  @override
+  void setup() {
+    list = List.generate(iterations, (index) => index);
+  }
+
+  @override
+  void run() {
+    loopMapConversion();
+  }
+
+  void loopMapConversion() {
+    final iterator = list.iterator;
+    while (iterator.moveNext()) {
+      result.add(iterator.current.toString());
     }
   }
 }
